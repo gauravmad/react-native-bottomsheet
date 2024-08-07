@@ -8,7 +8,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <StatusBar style="dark" backgroundColor="#fff"/>
+        <StatusBar style="dark" backgroundColor="#fff" />
         <Navigator />
       </NavigationContainer>
     </GestureHandlerRootView>

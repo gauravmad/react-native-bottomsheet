@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import BottomSheet,{BottomSheetRefProps} from "../components/BottomSheet";
 
 export const useBottomSheet = () => {
@@ -13,7 +13,7 @@ export const useBottomSheet = () => {
         if (isActive) {
           scrollTo(0);
         } else {
-          scrollTo(-200);
+          scrollTo(-400);
         }
       }, [scrollTo]);
 

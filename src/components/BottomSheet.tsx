@@ -4,6 +4,7 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   Extrapolate,
   interpolate,
+  useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -12,7 +13,7 @@ import Animated, {
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + 50;
+const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + 10;
 
 type BottomSheetProps = {
   children?: React.ReactNode;
@@ -75,13 +76,43 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
       };
     });
 
+    const rBackdropStyle = useAnimatedStyle(() => {
+      return {
+        opacity: withTiming(active.value ? 1 : 0),
+      };
+    }, []);
+
+    const rBackdropProps = useAnimatedProps(() => {
+      return {
+        pointerEvents: active.value ? "auto" : "none",
+      } as any;
+    }, []);
+
     return (
-      <GestureDetector gesture={gesture}>
-        <Animated.View style={[styles.bottomSheetContainer, rBottomSheetStyle]}>
-          <View style={styles.line}/>
-          {children}
-        </Animated.View>
-      </GestureDetector>
+      <>
+        <Animated.View
+          onTouchStart={() => {
+            // Dismiss the BottomSheet
+            scrollTo(0);
+          }}
+          animatedProps={rBackdropProps}
+          style={[
+            {
+              ...StyleSheet.absoluteFillObject,
+              backgroundColor: "rgba(0,0,0,0.4)",
+            },
+            rBackdropStyle,
+          ]}
+        />
+        <GestureDetector gesture={gesture}>
+          <Animated.View
+            style={[styles.bottomSheetContainer, rBottomSheetStyle]}
+          >
+            <View style={styles.line} />
+            {children}
+          </Animated.View>
+        </GestureDetector>
+      </>
     );
   }
 );
@@ -90,9 +121,9 @@ const styles = StyleSheet.create({
   bottomSheetContainer: {
     height: SCREEN_HEIGHT,
     width: "100%",
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     position: "absolute",
-    top: SCREEN_HEIGHT,
+    top: SCREEN_HEIGHT + 50,
     borderRadius: 25,
   },
   line: {
@@ -102,7 +133,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 15,
     borderRadius: 2,
-    
   },
 });
 
