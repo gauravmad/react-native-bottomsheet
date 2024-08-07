@@ -7,7 +7,7 @@ export const HomeMain: React.FC = () => {
 
   return (
     <View className="flex items-center bg-[#fff] h-full">
-      <Text className="text-[2.5vh] font-extrabold text-white mt-[10vh] ">
+      <Text className="text-[2.8vh] font-bold text-[#111] mt-[10vh] ">
         This is Home Screen
       </Text>
 
@@ -22,7 +22,7 @@ export const HomeMain: React.FC = () => {
           This is BottomSheet
         </Text>
       </BottomSheet>
-      
+
     </View>
   );
 };
